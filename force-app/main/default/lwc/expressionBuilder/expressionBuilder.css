@@ -1,0 +1,36 @@
+:host {
+    --index-offset: 2em;
+}
+
+.lineHeader {
+    display: none;
+}
+
+.fieldSelector {
+    position: relative;
+}
+
+.expressionLine:first-of-type .lineHeader {
+    display: block;
+    position: relative;
+    top: -0.25em;
+}
+
+.fieldSelector::before {
+    content: attr(data-position);
+    position: absolute;
+    top: 0.25em;
+    left: -1.5em;
+    text-align: right;
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    /* color: red; */
+}
+
+/* .lineHeader:first-of-type {
+    padding-left: var(--index-offset);
+}
+
+.lineIndex {
+    position: relative;
+    left: calc(var(--index-offset) * -1);
+} */
