@@ -6,14 +6,14 @@ const FIELD_TYPE_CATEGORIES = {
 }
 
 const REGEX = {
-    FIELD: '{{f}}',
-    VALUE: '{{v}}'
+    FIELD: '[f]',
+    VALUE: '[v]'
 }
 
 const OPERATORS = {
     EQUALS: { value: 'equals', label: 'Equals', types: [...FIELD_TYPE_CATEGORIES.TEXT, ...FIELD_TYPE_CATEGORIES.NUMERIC, ...FIELD_TYPE_CATEGORIES.DATE], pattern: `${REGEX.FIELD} = "${REGEX.VALUE}"` },
     NOT_EQUAL: { value: 'not_equal_to', label: 'Not Equal To', types: [...FIELD_TYPE_CATEGORIES.TEXT, ...FIELD_TYPE_CATEGORIES.NUMERIC, ...FIELD_TYPE_CATEGORIES.DATE], pattern: `${REGEX.FIELD} <> "${REGEX.VALUE}"` },
-    GREATER: { value: 'greater_than', label: 'Greater than', types: [...FIELD_TYPE_CATEGORIES.NUMERIC, ...FIELD_TYPE_CATEGORIES.DATE], pattern: `${REGEX.FIELD} > "${REGEX.VALUE}"` },
+    GREATER: { value: 'greater_than', label: 'Greater Than', types: [...FIELD_TYPE_CATEGORIES.NUMERIC, ...FIELD_TYPE_CATEGORIES.DATE], pattern: `${REGEX.FIELD} > "${REGEX.VALUE}"` },
     GREATER_OR_EQUAL: { value: 'greater_or_equal', label: 'Greater Or Equal', types: [...FIELD_TYPE_CATEGORIES.NUMERIC, ...FIELD_TYPE_CATEGORIES.DATE], pattern: `${REGEX.FIELD} >= "${REGEX.VALUE}"` },
     LESS: { value: 'less_than', label: 'Less Than', types: [...FIELD_TYPE_CATEGORIES.NUMERIC, ...FIELD_TYPE_CATEGORIES.DATE], pattern: `${REGEX.FIELD} < "${REGEX.VALUE}"` },
     LESS_OR_EQUAL: { value: 'less_or_equal', label: 'Less Or Equal', types: [...FIELD_TYPE_CATEGORIES.NUMERIC, ...FIELD_TYPE_CATEGORIES.DATE], pattern: `${REGEX.FIELD} <= "${REGEX.VALUE}"` },

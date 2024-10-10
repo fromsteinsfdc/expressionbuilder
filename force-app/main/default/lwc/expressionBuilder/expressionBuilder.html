@@ -1,22 +1,26 @@
 <template>
+    <template lwc:if={isLoading}>
+        <lightning-spinner></lightning-spinner>
+    </template>
     <div class="slds-box slds-theme_default">
-        <div class="slds-grid">
-
+        <div class="nameAndLabelContainer slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-2">
+                <lightning-input label="Expression Label" value={expression.Label} oncommit={handleLabelChange}  onblur={setApiNameFromLabel} required></lightning-input>
+            </div>
+            <div class="slds-col slds-size_1-of-2">
+                <lightning-input label="Expression API Name" value={expression.DeveloperName} oncommit={handleNameChange} message-when-pattern-mismatch={messageWhenPatternMismatch} required></lightning-input>
+            </div>
         </div>
         <!-- <p>{linesString}</p> -->
-        <!-- <hr> -->
-        <!-- <p>{logicString}</p> -->
-        <!-- <hr> -->
-        <!-- <p>{evaluatedLogicString}<lightning-button-icon icon-name="utility:copy" onclick={handleCopyLogicStringClick}></lightning-button-icon></p> -->
         <div class="logicTypeContainer slds-grid slds-gutters">
             <div class="slds-col slds-size_1-of-2">
-                <lightning-combobox label="When to Execute" value={logicType} options={logicTypes.options}
+                <lightning-combobox label="When to Execute" value={expression.Logic_Type__c} options={logicTypes.options}
                     onchange={handleLogicTypeChange}>
                 </lightning-combobox>
             </div>
             <div class="slds-col slds-size_1-of-2">
                 <template lwc:if={showCustomLogic}>
-                    <lightning-input label="Custom Logic" value={logicString} oncommit={handleCustomLogicChange}
+                    <lightning-input label="Custom Logic" value={expression.Logic_String__c} oncommit={handleCustomLogicChange}
                         class="customLogicString"></lightning-input>
                 </template>
             </div>
@@ -29,27 +33,27 @@
                     <div class="slds-col slds-grid lineData">
                         <div class="slds-col slds-size_4-of-12">
                             <div class="slds-p-vertical_x-small lineHeader">Field</div>
-                            <c-field-selector variant="label-hidden" class="fieldSelector" object-name={objectName}
-                                data-index={index} data-position={line.displayIndex} value={line.fieldName} onchange={handleLineFieldChange}
+                            <c-field-selector variant="label-hidden" class="fieldSelector" object-name={expression.Object_Name__c}
+                                data-index={index} data-position={line.displayIndex} value={line.Field_Name__c} onchange={handleLineFieldChange}
                                 include-full-details required></c-field-selector>
                         </div>
                         <div class="slds-col slds-size_2-of-12">
                             <div class="slds-p-vertical_x-small lineHeader">Operator</div>
                             <lightning-combobox label="Operator" variant="label-hidden" class="operatorCombobox"
-                                options={line.availableOperators} value={line.operator} data-index={index}
+                                options={line.availableOperators} value={line.Operator__c} data-index={index}
                                 disabled={line.isMissingField} onchange={handleLineOperatorChange}
                                 required></lightning-combobox>
                             <template lwc:if={line.isString}>
                                 <div class="slds-grid slds-p-top_xxx-small">
                                     Match case <lightning-input type="checkbox" class="slds-p-left_xxx-small"
-                                        data-index={index} checked={line.matchCase}
+                                        data-index={index} checked={line.Match_Case__c}
                                         onchange={handleLineMatchCaseChange}></lightning-input>
                                 </div>
                             </template>
                         </div>
                         <div class="slds-col slds-size_6-of-12">
                             <div class="slds-p-vertical_x-small lineHeader">Value</div>
-                            <lightning-input label="Value" variant="label-hidden" value={line.value} data-index={index}
+                            <lightning-input label="Value" variant="label-hidden" value={line.Value__c} data-index={index}
                                 disabled={line.isMissingField} onchange={handleLineValueChange}></lightning-input>
                         </div>
                         <!-- <div class="slds-col slds-size_1-of-12">
@@ -68,6 +72,8 @@
             <lightning-button label="Add Condition" icon-name="utility:add" onclick={handleAddLineClick}
                 class="slds-p-around_small"></lightning-button>
         </div>
-        <!-- <c-fsc_lookup object-name={objectName} onchange={handleLookupChange}></c-fsc_lookup> -->
+        <div class="slds-p-vertical_x-large">
+            <lightning-button label="Save" variant="brand" onclick={handleSaveExpressionClick}></lightning-button>
+        </div>
     </div>
 </template>
