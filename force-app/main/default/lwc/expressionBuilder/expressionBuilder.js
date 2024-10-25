@@ -67,6 +67,14 @@ const ERROR_MESSAGES = {
     MISSING_FILTER: 'Invalid condition logic: Some filter conditions are defined but not referenced in your filter logic.',
     UNDEFINED_FILTER: 'Invalid condition logic: The filter logic references an undefined filter.',
 }
+
+const DEFAULT_EXPRESSION = {
+    [EXPRESSION_FIELD_OBJECTNAME.fieldApiName]: '',
+    [EXPRESSION_FIELD_LOGICSTRING.fieldApiName]: '',
+    [EXPRESSION_FIELD_LOGICTYPE.fieldApiName]: 'AND',
+    [EXPRESSION_FIELD_MATCHCASEBYDEFAULT.fieldApiName]: false,
+    Logic_Expression_Lines__r: [],
+}
 // Report error messages:
 // To use successive AND-OR expressions, add parentheses.
 // Include all filters. (missing filter)
@@ -76,13 +84,27 @@ const ERROR_MESSAGES = {
 
 
 export default class ExpressionBuilder extends LightningElement {
-    @api objectName;
+    @track expression = DEFAULT_EXPRESSION;
+
+
+    @api get objectName() { return this._objectName; }
+    set objectName(value) {
+        this._objectName = value;
+        this.expression.Object_Name__c = value;
+        this.updateExpression();
+    }
+    _objectName; 
+
     @api logicType;
     // @api expressionLines = [];
     @api logicString = '';
+    @api outerClass;
+    @api hideNameAndLabel = false;
+    @api showMatchCaseOption = false;
     @api matchCaseByDefault = false;
+    @api disabled = false;
+    @api required = false;
 
-    @track expression;
 
     @api
     get expressionRecordFullName() {
@@ -109,7 +131,7 @@ export default class ExpressionBuilder extends LightningElement {
                     this.isLoading = false;
                 });
         } else {
-            this.expression = this.generateDefaultExpression();
+            this.expression = DEFAULT_EXPRESSION;
         }
     }
     _expressionRecordFullName;
@@ -139,7 +161,8 @@ export default class ExpressionBuilder extends LightningElement {
                 ...line,
                 index,
                 displayIndex: Number(index) + 1,
-                isMissingField: !line.Field_Name__c,
+                // isMissingField: !line.Field_Name__c,
+                disabled: this.disabled || !line.Field_Name__c,
                 isString: FIELD_TYPE_CATEGORIES.TEXT.includes(line.Field_Type__c),
                 availableOperators: this.getAvailableOperators(line.Field_Type__c),
             }
@@ -153,6 +176,14 @@ export default class ExpressionBuilder extends LightningElement {
 
     get expressionString() {
         return JSON.stringify(this.expression);
+    }
+
+    get computedContainerClass() {
+        let classes = ['expressionBuilderContainer'];
+        if (this.outerClass) {
+            classes.push(this.outerClass);
+        }
+        return classes.join(' ');
     }
 
     /* PUBLIC FUNCTIONS */
@@ -183,16 +214,18 @@ export default class ExpressionBuilder extends LightningElement {
 
     /* ACTION FUNCTIONS */
     setDemoValues() {
-        this.expression.Object_Name__c = 'Account';
+        if (!this.expression.Object_Name__c) {
+            this.expression.Object_Name__c = 'Account';
+        }
     }
 
     setDefaultValues() {
-        if (!this.expression) {
-            this.expression = this.generateDefaultExpression();
-        }
-        if (!this.expression.Logic_Type__c) {
-            this.expression.Logic_Type__c = this.logicTypes.default.value;
-        }
+        // if (!this.expression) {
+        //     this.expression = this.generateDefaultExpression();
+        // }
+        // if (!this.expression.Logic_Type__c) {
+        //     this.expression.Logic_Type__c = this.logicTypes.default.value;
+        // }
         if (this.expressionLines.length === 0) {
             this.addExpressionLine();
         }
@@ -315,10 +348,6 @@ export default class ExpressionBuilder extends LightningElement {
     //     navigator.clipboard.writeText(this.evaluateLogicString(this.logicString));
     // }
 
-    handleSaveExpressionClick() {
-        this.saveExpression();
-    }
-
     /* VALIDATION FUNCTIONS */
     validateLogicString(logicString) {
         // console.log(`in validateLogicString`);
@@ -422,7 +451,10 @@ export default class ExpressionBuilder extends LightningElement {
     @api
     validate() {
         let isValid = true;
-        [...this.template.querySelectorAll('.nameAndLabelContainer lightning-input')].forEach(input => {
+        console.log(`in expressionBuilderValidate`);
+        console.log(this.template.querySelectorAll('.nameAndLabelContainer lightning-input').length);
+        this.template.querySelectorAll('.nameAndLabelContainer lightning-input').forEach(input => {
+        // this.template.querySelectorAll('.nameAndLabelContainer lightning-input') {
             isValid = input.reportValidity() && isValid;
         });
         let logicError = this.validateLogicString(this.expression.Logic_String__c);

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Operator__c</fullName>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Operator</label>
+    <required>true</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>equals</fullName>
+                <default>true</default>
+                <label>Equals</label>
+            </value>
+            <value>
+                <fullName>not_equal_to</fullName>
+                <default>false</default>
+                <label>Not Equal To</label>
+            </value>
+            <value>
+                <fullName>greater_than</fullName>
+                <default>false</default>
+                <label>Greater Than</label>
+            </value>
+            <value>
+                <fullName>greater_or_equal</fullName>
+                <default>false</default>
+                <label>Greater or Equal</label>
+            </value>
+            <value>
+                <fullName>less_than</fullName>
+                <default>false</default>
+                <label>Less Than</label>
+            </value>
+            <value>
+                <fullName>less_or_equal</fullName>
+                <default>false</default>
+                <label>Less or Equal</label>
+            </value>
+            <value>
+                <fullName>contains</fullName>
+                <default>false</default>
+                <label>Contains</label>
+            </value>
+            <value>
+                <fullName>does_not_contain</fullName>
+                <default>false</default>
+                <label>Does Not Contain</label>
+            </value>
+            <value>
+                <fullName>starts_with</fullName>
+                <default>false</default>
+                <label>Starts With</label>
+            </value>
+            <value>
+                <fullName>end_with</fullName>
+                <default>false</default>
+                <label>Ends With</label>
+            </value>
+            <value>
+                <fullName>Is True</fullName>
+                <default>false</default>
+                <label>Is True</label>
+            </value>
+            <value>
+                <fullName>Is False</fullName>
+                <default>false</default>
+                <label>Is False</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

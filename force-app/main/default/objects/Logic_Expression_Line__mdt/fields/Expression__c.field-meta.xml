@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Expression__c</fullName>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Expression</label>
+    <referenceTo>Logic_Expression__mdt</referenceTo>
+    <relationshipLabel>Logic Expression Lines</relationshipLabel>
+    <relationshipName>Logic_Expression_Lines</relationshipName>
+    <required>true</required>
+    <type>MetadataRelationship</type>
+    <unique>false</unique>
+</CustomField>

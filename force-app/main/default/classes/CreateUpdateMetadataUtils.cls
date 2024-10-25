@@ -8,7 +8,20 @@ public class CreateUpdateMetadataUtils implements Metadata.DeployCallback {
             System.debug(result.details);
         }
     }
-    
+
+    public static Metadata.CustomMetadata metadataItem(String fullName, String label, Map<String, Object> fieldWithValuesMap) {
+        Metadata.CustomMetadata customMetadata =  new Metadata.CustomMetadata();
+        customMetadata.fullName = fullName;
+        customMetadata.label = label;
+        for (String key : fieldWithValuesMap.keySet()){
+            Metadata.CustomMetadataValue customField = new Metadata.CustomMetadataValue();
+            customField.field = key;
+            customField.value = fieldWithValuesMap.get(key); 
+            customMetadata.values.add(customField);
+        }
+        return customMetadata;
+    }
+        
     // Moved into ExpressionBuilderController. All that's needed in this class is the callback handler function
     /*
     public static void createUpdateMetadata(String fullName, String label, Map<String, Object> fieldWithValuesMap){
